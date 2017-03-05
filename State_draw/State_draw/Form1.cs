@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace State_draw
@@ -16,7 +10,6 @@ namespace State_draw
         {
             InitializeComponent();
         }
-
         public interface IToolState
         {
             void HandleMouseDown();
@@ -37,79 +30,103 @@ namespace State_draw
             Point p1;
             public void HandleMouseDown()
             {
-                p = f.PointToClient(Cursor.Position);
-
-                //p = new Point(CursorX, CursorY);
-                //return p;
-                Graphics gr = Graphics.FromImage(bitmap);
-                //gr.DrawLine(Pens.Red, p, new Point(p.X - 50, p.Y - 50));
-                Console.WriteLine(p.X);
-                Console.WriteLine(p.Y);
+                p.X = Form1.MousePosition.X - 276;
+                p.Y = Form1.MousePosition.Y - 12;
             }
             
             public void HandleMouseMove()
             {
-                p1 = f.PointToClient(Control.MousePosition);
-                //p1 = new Point(CursorX1, CursorY1);
-                //return p1;
-                Console.WriteLine(p1.X);
-                Console.WriteLine(p1.Y);
-                Pen pen = new Pen(Color.Black);
-                Graphics gr = Graphics.FromImage(bitmap);
-                gr.DrawLine(Pens.Red, p, p1);
-                //gr.DrawLine(Pens.Red, /*p, new Point(p.X+50,p.Y+50)*/ 10,10,50,50);
-            }
+                p1.X = Form1.MousePosition.X - 276;
+                p1.Y = Form1.MousePosition.Y - 12;
+              }
 
             public void HandlePaint()
             {
-                //Graphics gr = Graphics.FromImage(bitmap);
-                
-                Pen pen = new Pen(Color.Black);
                 Graphics gr = Graphics.FromImage(bitmap);
                 gr.DrawLine(Pens.Red, p, p1);
-                //gr.DrawLine(Pens.Red, p, p1);
-                //gr.DrawLine(Pens.Red, 10, 10, 50, 50);
-            }
-            
+            }            
         }
-        //public class RectangleState : IToolState
-        //{
-        //    private Bitmap bitmap;
+        public class RectangleState : IToolState
+        {
+            public Form1 f = new Form1();
+            Point p;
+            Point p1;
+            private Bitmap bitmap;
+            
+            public RectangleState(Bitmap map)
+            {
+                this.bitmap = map;
+            }
 
-        //    public RectangleState(Bitmap map)
-        //    {
-        //        this.bitmap = map;
-        //    }
+            public void HandleMouseDown()
+            {
+                p.X = Form1.MousePosition.X - 276;
+                p.Y = Form1.MousePosition.Y - 12;
+          }
 
-        //    public void HandleMouseDown()
-        //    {
-        //        Graphics gr = Graphics.FromImage(bitmap);
-        //        gr.DrawRectangle(Pens.Red, 10, 10, 50, 50);
-        //    }
-        //}
-        //public class CircleState : IToolState
-        //{
-        //    private Bitmap bitmap;
-        //    public CircleState(Bitmap map)
-        //    {
-        //        this.bitmap = map;
-        //    }
-        //    public void HandleMouseDown()
-        //    {
-        //        Graphics gr = Graphics.FromImage(bitmap);
-        //        gr.DrawEllipse(Pens.Red, 10, 10, 50, 50);
-        //    }
-        //}
+            public void HandleMouseMove()
+            {
+                p1.X = Form1.MousePosition.X - 276;
+                p1.Y = Form1.MousePosition.Y - 12;
+              }
+
+            public void HandlePaint()
+            {
+                Graphics gr = Graphics.FromImage(bitmap);
+                if (p.X > p1.X)
+                {
+                    gr.DrawRectangle(Pens.Red, p1.X, p1.Y, Math.Abs(p1.X - p.X), Math.Abs(p1.Y - p.Y));
+                }
+                else
+                {
+                    gr.DrawRectangle(Pens.Red, p.X, p.Y, Math.Abs(p1.X - p.X), Math.Abs(p1.Y - p.Y));
+                }
+            }
+        }
+        public class CircleState : IToolState
+        {
+            public Form1 f = new Form1();
+            Point p;
+            Point p1;
+            private Bitmap bitmap;
+            public CircleState(Bitmap map)
+            {
+                this.bitmap = map;
+            }
+            public void HandleMouseDown()
+            {
+                p.X = Form1.MousePosition.X - 276;
+                p.Y = Form1.MousePosition.Y - 12;
+            }
+
+            public void HandleMouseMove()
+            {
+                p1.X = Form1.MousePosition.X - 276;
+                p1.Y = Form1.MousePosition.Y - 12;
+                Pen pen = new Pen(Color.Black);
+         }
+            public void HandlePaint()
+            {
+                Graphics gr = Graphics.FromImage(bitmap);
+                if (p.X > p1.X)
+                {
+                    gr.DrawEllipse(Pens.Red, p1.X, p1.Y, Math.Abs(p1.X - p.X), Math.Abs(p1.Y - p.Y));
+                }
+                else
+                {
+                    gr.DrawEllipse(Pens.Red, p.X, p.Y, Math.Abs(p1.X - p.X), Math.Abs(p1.Y - p.Y));
+                }
+                //gr.DrawEllipse(Pens.Red, p.X, p.Y, Math.Abs(p1.X - p.X), Math.Abs(p1.Y - p.Y));
+            }
+        }
         public class DrawingController
             {
                 IToolState ToolState;
-
                 public void SetState(IToolState state)
                 {
                     ToolState = state;
                 }
             }
-
         static Bitmap bitmap= new Bitmap(328, 336);
         IToolState tool;
         DrawingController drawer = new DrawingController();
@@ -117,24 +134,24 @@ namespace State_draw
             {
                 tool = new LineState(bitmap);
                 drawer.SetState(tool);
+            
             }
-        //private void button2_Click_1(object sender, EventArgs e)
-        //{
-        //    tool = new RectangleState(bitmap);
-        //    drawer.SetState(tool);
-        //}
-        //private void button3_Click_1(object sender, EventArgs e)
-        //{
-        //    tool = new CircleState(bitmap);
-        //    drawer.SetState(tool);
-        //}
-        //Point nach;
-        //Point kon;
+        private void button2_Click(object sender, EventArgs e)
+        {
+            tool = new RectangleState(bitmap);
+            drawer.SetState(tool);
+        }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            tool = new CircleState(bitmap);
+            drawer.SetState(tool);
+        }
+
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
             tool.HandleMouseDown();
-            pictureBox1.Image = bitmap;
         }
+
         private void pictureBox1_MouseMove_1(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -142,46 +159,15 @@ namespace State_draw
                 tool.HandleMouseMove();
             }
             pictureBox1.Image = bitmap;
-            pictureBox1.Invalidate();
-       
-        }
-
-        private void pictureBox1_Paint_1(object sender, PaintEventArgs e)
-        {
-            //tool.HandlePaint();
-            //pictureBox1.Image = bitmap;    
-        }
-    }
-}
-
-/*        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
-        {
-            X = e.X;
-            Y = e.Y;
-        }
-        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                X1 = e.X;
-                Y1 = e.Y;
-                pictureBox1.Invalidate();
-            }
+            pictureBox1.Invalidate();       
         }
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
-            twoPoint.Add(new twoPoint(new Point(X, Y), new Point(X1, Y1)));
+            tool.HandlePaint();
+            pictureBox1.Image = bitmap;
         }
+    }
+}
 
-        private void pictureBox1_Paint(object sender, PaintEventArgs e)
-        {
-            Pen pen = new Pen(Color.Black);
-            e.Graphics.DrawLine(pen, new Point(X, Y), new Point(X1, Y1));
-            foreach (var p in twoPoint)
-            {
-                e.Graphics.DrawLine(pen, p.X, p.Y);
-            }
-        }
-*/
 

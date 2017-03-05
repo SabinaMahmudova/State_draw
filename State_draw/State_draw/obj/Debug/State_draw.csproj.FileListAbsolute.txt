@@ -1,0 +1,9 @@
+C:\Users\я\Documents\Visual Studio 2015\Projects\State_draw\State_draw\bin\Debug\State_draw.exe.config
+C:\Users\я\Documents\Visual Studio 2015\Projects\State_draw\State_draw\bin\Debug\State_draw.exe
+C:\Users\я\Documents\Visual Studio 2015\Projects\State_draw\State_draw\bin\Debug\State_draw.pdb
+C:\Users\я\Documents\Visual Studio 2015\Projects\State_draw\State_draw\obj\Debug\State_draw.csprojResolveAssemblyReference.cache
+C:\Users\я\Documents\Visual Studio 2015\Projects\State_draw\State_draw\obj\Debug\State_draw.Form1.resources
+C:\Users\я\Documents\Visual Studio 2015\Projects\State_draw\State_draw\obj\Debug\State_draw.Properties.Resources.resources
+C:\Users\я\Documents\Visual Studio 2015\Projects\State_draw\State_draw\obj\Debug\State_draw.csproj.GenerateResource.Cache
+C:\Users\я\Documents\Visual Studio 2015\Projects\State_draw\State_draw\obj\Debug\State_draw.exe
+C:\Users\я\Documents\Visual Studio 2015\Projects\State_draw\State_draw\obj\Debug\State_draw.pdb
